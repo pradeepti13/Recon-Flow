@@ -1,0 +1,10 @@
+{
+  "normal": "TXN10001",
+  "bank_delay": "TXN10087",
+  "amount_mismatch": "TXN10142",
+  "missing_bank": "TXN10211",
+  "missing_ledger": "TXN10304",
+  "duplicate": "TXN10482",
+  "timestamp_error": "TXN10531",
+  "systemic_incident": "TXN10087"
+}
