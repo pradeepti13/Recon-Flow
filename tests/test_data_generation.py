@@ -1,4 +1,4 @@
-﻿import json
+import json
 import hashlib
 from pathlib import Path
 import pandas as pd
@@ -38,6 +38,15 @@ def test_schemas():
 
 def test_dataset_validation_suite():
     validate_dataset(DATA_DIR)
+
+def test_bank_reference_invariant():
+    df_bnk = pd.read_csv(DATA_DIR / "bank.csv")
+    for _, row in df_bnk.iterrows():
+        expected_ref = f"BNK_{row['bank_name'][:3]}_{row['transaction_id']}"
+        assert row["bank_reference"] == expected_ref, (
+            f"Bank reference invariant violated for {row['transaction_id']}: "
+            f"expected {expected_ref}, got {row['bank_reference']}"
+        )
 
 def test_reproducibility():
     def get_file_hashes():

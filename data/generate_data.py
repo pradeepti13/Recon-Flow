@@ -1,4 +1,4 @@
-﻿"""
+"""
 Settlement Intelligence - Synthetic Data Generator
 Generates reproducible synthetic datasets for Gateway, Bank, and Ledger records,
 injecting controlled anomalies and systemic incident clusters.
@@ -177,10 +177,13 @@ def generate_dataset(num_transactions: int = 1000):
                 "response_message": "Transaction captured successfully"
             })
 
+            bank_name = "ICICI_BANK"
+            bnk_ref = f"BNK_{bank_name[:3]}_{txn_id}"
+
             bank_records.append({
                 "transaction_id": txn_id,
                 "bank_reference": bnk_ref,
-                "bank_name": "ICICI_BANK",
+                "bank_name": bank_name,
                 "amount": 4800.00,  # Mismatch: 4800 vs 5000
                 "bank_status": "SETTLED",
                 "received_at": format_iso(bank_recv_at),
@@ -208,6 +211,7 @@ def generate_dataset(num_transactions: int = 1000):
             init_at = txn_time
             capt_at = init_at + timedelta(seconds=25)
             settle_init_at = capt_at + timedelta(seconds=35)
+            ledg_created_at = settle_init_at + timedelta(minutes=5)
 
             gateway_records.append({
                 "transaction_id": txn_id,
@@ -224,7 +228,17 @@ def generate_dataset(num_transactions: int = 1000):
                 "response_message": "Transaction captured successfully"
             })
             # Deliberately OMIT bank record
-            # Deliberately OMIT ledger record since bank settlement never arrived
+
+            # Retain ledger record (Gateway exists, Bank missing, Ledger exists)
+            ledger_records.append({
+                "transaction_id": txn_id,
+                "ledger_entry_id": ledg_id,
+                "amount": 3200.00,
+                "ledger_status": "POSTED",
+                "created_at": format_iso(ledg_created_at),
+                "settlement_date": "2026-09-04",
+                "reconciliation_status": "UNRECONCILED"
+            })
             continue
 
         # -------------------------------------------------------------
@@ -253,10 +267,13 @@ def generate_dataset(num_transactions: int = 1000):
                 "response_message": "Transaction captured successfully"
             })
 
+            bank_name = "AXIS_BANK"
+            bnk_ref = f"BNK_{bank_name[:3]}_{txn_id}"
+
             bank_records.append({
                 "transaction_id": txn_id,
                 "bank_reference": bnk_ref,
-                "bank_name": "AXIS_BANK",
+                "bank_name": bank_name,
                 "amount": 7500.00,
                 "bank_status": "SETTLED",
                 "received_at": format_iso(bank_recv_at),
@@ -312,10 +329,13 @@ def generate_dataset(num_transactions: int = 1000):
                 "response_message": "Duplicate capture request detected"
             })
 
+            bank_name = "SBI"
+            bnk_ref = f"BNK_{bank_name[:3]}_{txn_id}"
+
             bank_records.append({
                 "transaction_id": txn_id,
                 "bank_reference": bnk_ref,
-                "bank_name": "SBI",
+                "bank_name": bank_name,
                 "amount": 3500.00,
                 "bank_status": "SETTLED",
                 "received_at": format_iso(bank_recv_at),
@@ -364,10 +384,13 @@ def generate_dataset(num_transactions: int = 1000):
                 "response_message": "Transaction captured successfully"
             })
 
+            bank_name = "KOTAK_BANK"
+            bnk_ref = f"BNK_{bank_name[:3]}_{txn_id}"
+
             bank_records.append({
                 "transaction_id": txn_id,
                 "bank_reference": bnk_ref,
-                "bank_name": "KOTAK_BANK",
+                "bank_name": bank_name,
                 "amount": 4200.00,
                 "bank_status": "SETTLED",
                 "received_at": format_iso(impossible_recv_at),
@@ -585,6 +608,7 @@ def validate_dataset(data_dir: Path = DATA_DIR):
     mb_id = demo["missing_bank"]
     assert mb_id in set(df_gw["transaction_id"]), f"{mb_id} should be in gateway"
     assert mb_id not in set(df_bnk["transaction_id"]), f"{mb_id} must NOT be in bank"
+    assert mb_id in set(df_led["transaction_id"]), f"{mb_id} should be in ledger"
 
     # 6. Missing ledger case (TXN10304):
     ml_id = demo["missing_ledger"]
@@ -620,7 +644,15 @@ def validate_dataset(data_dir: Path = DATA_DIR):
     for scenario, tid in demo.items():
         assert tid in unique_txns, f"Demo case {scenario} points to non-existent ID {tid}"
 
-    print("All 10 validation checks PASSED successfully!")
+    # 11. Bank reference consistency check (invariant: BNK_{bank_name[:3]}_{txn_id}):
+    for _, row in df_bnk.iterrows():
+        expected_ref = f"BNK_{row['bank_name'][:3]}_{row['transaction_id']}"
+        assert row["bank_reference"] == expected_ref, (
+            f"Bank reference mismatch for {row['transaction_id']}: "
+            f"expected {expected_ref}, got {row['bank_reference']}"
+        )
+
+    print("All 11 validation checks PASSED successfully!")
 
 
 if __name__ == "__main__":
