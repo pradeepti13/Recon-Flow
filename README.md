@@ -2,12 +2,12 @@
 
 >**From reconciliation to investigation. From isolated failures to systemic intelligence.**
 
+### 🔗 Quick Links & Live Links
 
->## 🔗 Quick Links & Live Links
-
-- **🐙 GitHub Repository**: [https://github.com/pradeepti13/Recon-Flow](https://github.com/pradeepti13/Recon-Flow)
-- **🚀 Live Deployed Application**: [https://recon-flow.onrender.com](https://recon-flow.onrender.com)
+- **🧑‍💻 GitHub Repository**: [https://github.com/pradeepti13/Recon-Flow](https://github.com/pradeepti13/Recon-Flow)
+- **🚀 Live Deployed Application**: [https://recon-flow-ten.vercel.app/](https://recon-flow-ten.vercel.app/)
 - **📖 API Documentation**: [https://recon-flow-backend.onrender.com/docs](https://recon-flow-backend.onrender.com/docs)
+
 Recon Flow is an **autonomous fintech settlement investigation platform** designed to investigate transaction failures across the complete payment settlement chain.
 
 Instead of treating a failed transaction as an isolated record, Recon Flow performs deterministic **three-leg reconciliation** across the **Payment Gateway, Acquiring Bank, and Internal Ledger**, identifies anomalies, detects recurring systemic failures, reconstructs the evidence trail, and uses AI to generate human-readable explanations and operational recommendations.
