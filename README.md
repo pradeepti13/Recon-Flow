@@ -239,8 +239,8 @@ This separation improves reliability, explainability, and testability.
 ┌─────────────────────────────────────────────────────────────┐
 │                     React 19 + Vite                         │
 │                                                             │
-│  Search • Investigation Conclusion • Evidence • Timeline   │
-│  Cross-System Comparison • Historical Patterns • AI        │
+│  Search • Investigation Conclusion • Evidence • Timeline    │
+│  Cross-System Comparison • Historical Patterns • AI         │
 └───────────────────────────┬─────────────────────────────────┘
                             │ HTTP / JSON
                             ▼
@@ -249,27 +249,27 @@ This separation improves reliability, explainability, and testability.
 │                                                             │
 │  REST API Routers                                           │
 │       │                                                     │
-│       ├── Investigation API                                  │
-│       ├── Incidents API                                      │
-│       ├── Explain API                                        │
-│       └── Transactions API                                   │
+│       ├── Investigation API                                 │
+│       ├── Incidents API                                     │
+│       ├── Explain API                                       │
+│       └── Transactions API                                  │
 │                                                             │
-│  Core Services                                               │
+│  Core Services                                              │
 │       │                                                     │
-│       ├── Data Loader                                        │
-│       ├── Investigation Engine                               │
-│       ├── Anomaly Detector                                   │
-│       ├── Confidence Engine                                  │
-│       ├── Systemic Analyzer                                  │
-│       ├── Historical Pattern Analyzer                        │
-│       └── AI Narrative Service                               │
+│       ├── Data Loader                                       │
+│       ├── Investigation Engine                              │
+│       ├── Anomaly Detector                                  │
+│       ├── Confidence Engine                                 │
+│       ├── Systemic Analyzer                                 │
+│       ├── Historical Pattern Analyzer                       │
+│       └── AI Narrative Service                              │
 └───────────────────────────┬─────────────────────────────────┘
                             │
                             ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                  Deterministic Data Layer                   │
 │                                                             │
-│      gateway.csv       bank.csv       ledger.csv             │
+│      gateway.csv       bank.csv       ledger.csv            │
 │                                                             │
 │       12,155 synthetic but internally consistent            │
 │                  transaction records                        │
